@@ -19,6 +19,7 @@ import {UserModule} from './user/user.module';
 import { StoreModule } from '@ngrx/store';
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../environments/environment";
+import {EffectsModule} from "@ngrx/effects";
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {environment} from "../environments/environment";
         UserModule,
         AppRoutingModule,
         StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
         StoreDevtoolsModule.instrument({
             name: 'My NgRx App',
             maxAge: 25,
