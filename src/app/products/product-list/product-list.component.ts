@@ -3,6 +3,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Product} from '../product';
 import {ProductService} from '../product.service';
 import {select, Store} from "@ngrx/store";
+import {Observable} from "rxjs";
 import * as fromProduct from "../state/product.reducer"
 import * as productActions from "../state/product.actions"
 
@@ -18,10 +19,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     displayCode: boolean;
 
-    products: Product[];
-
     // Used to highlight the selected product in the list
     selectedProduct: Product | null;
+    products$: Observable<Product[]>;
 
     constructor(private productService: ProductService, private store: Store<fromProduct.IState>) {
     }
@@ -59,9 +59,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         // using an effect (we dispatches an action that triggers an effect)
         this.store.dispatch(new productActions.Load());
         // we listen to the store for when the products is retrieved
-        this.store.pipe(select(fromProduct.getProducts)).subscribe(
-            (products: Product[]) => this.products = products
-        )
+        this.products$ = this.store.pipe(select(fromProduct.getProducts))
     }
 
     ngOnDestroy(): void {
