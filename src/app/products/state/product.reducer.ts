@@ -7,6 +7,7 @@ export interface IProductState {
     showProductCode: boolean;
     currentProduct: Product;
     products: Product[];
+    error: string;
 }
 
 export interface IState extends fromRoot.IState {
@@ -16,7 +17,8 @@ export interface IState extends fromRoot.IState {
 const initialState: IProductState = {
     showProductCode: true,
     currentProduct: null,
-    products: []
+    products: [],
+    error: ''
 };
 
 const getProductFeatureState = createFeatureSelector<IProductState>('products');
@@ -34,6 +36,11 @@ export const getCurrentProduct = createSelector(
 export const getProducts = createSelector(
     getProductFeatureState,
     state => state.products
+);
+
+export const getError = createSelector(
+    getProductFeatureState,
+    state => state.error
 );
 
 export function reducer(state = initialState, action: ProductActions): IProductState {
@@ -68,7 +75,14 @@ export function reducer(state = initialState, action: ProductActions): IProductS
         case ProductActionTypes.LoadSuccess:
             return {
                 ...state,
-                products:  action.payload
+                products:  action.payload,
+                error: ''
+            };
+        case ProductActionTypes.LoadFail:
+            return {
+                ...state,
+                products: [],
+                error:  action.payload
             };
 
         default:

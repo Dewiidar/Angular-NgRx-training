@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     // Used to highlight the selected product in the list
     selectedProduct: Product | null;
     products$: Observable<Product[]>;
+    errorMessage$: Observable<string>;
 
     constructor(private productService: ProductService, private store: Store<fromProduct.IState>) {
     }
@@ -59,7 +60,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
         // using an effect (we dispatches an action that triggers an effect)
         this.store.dispatch(new productActions.Load());
         // we listen to the store for when the products is retrieved
-        this.products$ = this.store.pipe(select(fromProduct.getProducts))
+        this.products$ = this.store.pipe(select(fromProduct.getProducts));
+        // we listen for retrieving products error
+        this.errorMessage$ = this.store.pipe(select(fromProduct.getError))
     }
 
     ngOnDestroy(): void {
