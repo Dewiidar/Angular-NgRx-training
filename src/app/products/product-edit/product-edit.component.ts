@@ -148,7 +148,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
     }
 
     saveProduct(): void {
+        // to check if the form is valid
         if (this.productForm.valid) {
+            // to check if the form has changed
             if (this.productForm.dirty) {
                 // Copy over all of the original product properties
                 // Then copy over the values from the form
@@ -167,18 +169,7 @@ export class ProductEditComponent implements OnInit, OnDestroy {
                         (err: any) => this.errorMessage = err.error
                     );
                 } else {
-
-
-                    this.productService.updateProduct(p).subscribe(
-                        product => {
-                            // Without NgRx
-                            // this.productService.changeSelectedProduct(product)
-
-                            // With NgRx
-                            this.store.dispatch(new ProductActions.SetCurrentProduct(product))
-                        },
-                        (err: any) => this.errorMessage = err.error
-                    );
+                    this.store.dispatch(new ProductActions.UpdateProduct(p))
                 }
             }
         } else {
