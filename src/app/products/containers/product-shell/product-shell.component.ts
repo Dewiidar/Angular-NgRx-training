@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Product} from '../../product';
 import {ProductService} from '../../product.service';
 import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
-import * as fromProduct from "../../state/product.reducer"
+import * as fromProduct from "../../state"
 import * as productActions from "../../state/product.actions"
 
 
 @Component({
-    templateUrl: './product-shell.component.html'
+    templateUrl: './product-shell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 // This component is now called a smart component (a container component)
